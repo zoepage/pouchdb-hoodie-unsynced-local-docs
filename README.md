@@ -23,13 +23,13 @@ api.getLocalChanges(['docid', {_id: 'docid'}]) // array of IDs and objects
 ```
 
 ## Approach
-1. we know localDb & remoteDb
+1. we know localDb, but not the state of remoteDB when we are offline
 2. update_seq(for localDb/remoteDb) + get `_local/` ids for both, 1-time replication & continuous replication*
 3. localDb/_changes?since=<seq>
 4. if it returns anything: there are changes
 
 hint: 
-* `lib/replicate/gen-replication-id.js`
+* `https://github.com/pouchdb/pouchdb/blob/master/lib/replicate/genReplicationId.js`
 
 ## Installation
 
