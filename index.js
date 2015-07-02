@@ -10,7 +10,7 @@ function hoodieLocalChanges (options) {
 
   return {
     db: this,
-    getLocalChanges: require('./lib/getLocalChanges').bind(this, state, options)
+    getLocalChanges: require('./lib/get-local-changes').bind(this, state, options)
   }
 }
 
