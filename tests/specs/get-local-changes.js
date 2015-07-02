@@ -146,3 +146,23 @@ test('getLocalChanges([obj1, id2])', function (t) {
     t.equal(changedDocs.length, 2, '2 local changes detected for [obj, id]')
   })
 })
+
+test('getLocalChanges([obj1, undefined]), ', function (t) {
+  t.plan(1)
+  var db1 = dbFactory('LCDB9')
+  var api = db1.hoodieLocalChanges({remote: 'LCDB10'})
+
+  var localObj1 = {_id: 'test1'}
+  var localObj2 = {_id: 'test2'}
+  var localObj3 = {_id: 'test3'}
+
+  db1.bulkDocs([localObj1, localObj2, localObj3])
+
+  .then(function () {
+    return api.getLocalChanges([localObj3, undefined])
+  })
+
+  .catch(function () {
+    t.pass('jau')
+  })
+})
