@@ -1,4 +1,4 @@
-# pouchdb-hoodie-local-changes
+# pouchdb-hoodie-unsynced-local-docs
 
 
 This [PouchDB](http://pouchdb.com/) plugin provides simple methods to
@@ -10,16 +10,16 @@ check if local DB has unsynced changes.
 // Initialisation
 
 var db = new PouchDB('dbname')
-var api = db.hoodieLocalChanges({remote: 'http://example.com/mydb'})
+var api = db.unsyncesLocalDocs({remote: 'http://example.com/mydb'})
 
-api.getLocalChanges()
+api.unsyncesLocalDocs()
 .then(function(changes) {
   // changes is array of docs?
 })
 
-api.getLocalChanges('docid') // pass doc id
-api.getLocalChanges({_id: 'docid'}) // pass doc with _id property
-api.getLocalChanges(['docid', {_id: 'docid'}]) // array of IDs and objects
+api.unsyncesLocalDocs('docid') // pass doc id
+api.unsyncesLocalDocs({_id: 'docid'}) // pass doc with _id property
+api.unsyncesLocalDocs(['docid', {_id: 'docid'}]) // array of IDs and objects
 ```
 
 ## Approach
@@ -38,14 +38,14 @@ hint:
 Attach this plugin to the PouchDB object: 
 ````
 npm install --save pouchdb
-npm install --save pouchdb-hoodie-local-changes
+npm install --save pouchdb-hoodie-unsynced-local-docs
 ````
 
 #### Install via npm
 
 ````
 var PouchDB = require('pouchdb')
-PouchDB.plugin(require('pouchdb-hoodie-local-changes'))
+PouchDB.plugin(require('pouchdb-hoodie-unsynced-local-docs'))
 ````
 
 <!--
