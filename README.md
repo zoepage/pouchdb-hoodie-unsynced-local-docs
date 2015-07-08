@@ -1,5 +1,11 @@
 # pouchdb-hoodie-unsynced-local-docs
 
+[![Build Status](https://travis-ci.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs.svg?branch=master)](https://travis-ci.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs)
+[![Coverage Status](https://coveralls.io/repos/hoodiehq/pouchdb-hoodie-unsynced-local-docs/badge.svg?branch=master&service=github)](https://coveralls.io/github/hoodiehq/pouchdb-hoodie-unsynced-local-docs?branch=master)
+[![Dependency Status](https://david-dm.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs.svg)](https://david-dm.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs)
+[![devDependency Status](https://david-dm.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs/dev-status.svg)](https://david-dm.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs#info=devDependencies)
+
+[![NPM](https://nodei.co/npm/pouchdb-hoodie-unsynced-local-docs.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/pouchdb-hoodie-unsynced-local-docs/)
 
 This [PouchDB](http://pouchdb.com/) plugin provides simple methods to
 check if local DB has unsynced changes.
@@ -10,16 +16,16 @@ check if local DB has unsynced changes.
 // Initialisation
 
 var db = new PouchDB('dbname')
-var api = db.unsyncesLocalDocs({remote: 'http://example.com/mydb'})
+var api = db.unsyncedLocalDocs({remote: 'http://example.com/mydb'})
 
-api.unsyncesLocalDocs()
+api.unsyncedLocalDocs()
 .then(function(changes) {
   // changes is array of docs?
 })
 
-api.unsyncesLocalDocs('docid') // pass doc id
-api.unsyncesLocalDocs({_id: 'docid'}) // pass doc with _id property
-api.unsyncesLocalDocs(['docid', {_id: 'docid'}]) // array of IDs and objects
+api.unsyncedLocalDocs('docid') // pass doc id
+api.unsyncedLocalDocs({_id: 'docid'}) // pass doc with _id property
+api.unsyncedLocalDocs(['docid', {_id: 'docid'}]) // array of IDs and objects
 ```
 
 ## Approach
