@@ -2,17 +2,17 @@ var test = require('tape')
 var dbFactory = require('../utils/db')
 
 /* create if db does not exist, ping if exists or created */
-test('api.getLocalChanges() creates new db', function (t) {
+test('api.unsyncedLocalDocs() creates new db', function (t) {
   t.plan(2)
   var db = dbFactory()
   var PouchDB = db.constructor
   var remoteName = PouchDB.utils.uuid(10)
-  var api = db.hoodieLocalChanges({remote: 'LCDB2'})
+  var api = db.unsyncedLocalDocs({remote: 'LCDB2'})
 
   db.put({_id: 'test'})
 
   .then(function () {
-    return api.getLocalChanges()
+    return api.unsyncedLocalDocs()
   })
 
   .then(function () {
@@ -21,14 +21,14 @@ test('api.getLocalChanges() creates new db', function (t) {
 
   .then(function (info) {
     t.equal(info.db_name, remoteName, 'remote db exists')
-    t.is(typeof api.getLocalChanges, 'function', 'has method')
+    t.is(typeof api.unsyncedLocalDocs, 'function', 'has method')
   })
 })
 
-test('getLocalChanges()', function (t) {
+test('api.unsyncedLocalDocs()', function (t) {
   t.plan(4)
   var db1 = dbFactory('LCDB1')
-  var api = db1.hoodieLocalChanges({remote: 'LCDB2'})
+  var api = db1.unsyncedLocalDocs({remote: 'LCDB2'})
 
   var localObj1 = {_id: 'test1', foo: 'bar1'}
   var localObj2 = {_id: 'test2', foo: 'bar2'}
@@ -37,7 +37,7 @@ test('getLocalChanges()', function (t) {
   db1.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.getLocalChanges()
+    return api.unsyncedLocalDocs()
   })
 
   .then(function (changedDocs) {
@@ -54,11 +54,11 @@ test('getLocalChanges()', function (t) {
   })
 })
 
-test('getLocalChanges(), sync before check', function (t) {
+test('api.unsyncedLocalDocs(), sync before check', function (t) {
   t.plan(2)
   var db1 = dbFactory('LCDB3')
   var db2 = dbFactory('LCDB4')
-  var api = db1.hoodieLocalChanges({remote: 'LCDB4'})
+  var api = db1.unsyncedLocalDocs({remote: 'LCDB4'})
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
@@ -67,7 +67,7 @@ test('getLocalChanges(), sync before check', function (t) {
   db1.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.getLocalChanges()
+    return api.unsyncedLocalDocs()
   })
 
   .then(function (changedDocs) {
@@ -79,7 +79,7 @@ test('getLocalChanges(), sync before check', function (t) {
   })
 
   .then(function () {
-    return api.getLocalChanges()
+    return api.unsyncedLocalDocs()
   })
 
   .then(function (changedDocs) {
@@ -87,10 +87,10 @@ test('getLocalChanges(), sync before check', function (t) {
   })
 })
 
-test('getLocalChanges(string)', function (t) {
+test('api.unsyncedLocalDocs(string)', function (t) {
   t.plan(1)
   var db1 = dbFactory('LCDB5')
-  var api = db1.hoodieLocalChanges({remote: 'LCDB6'})
+  var api = db1.unsyncedLocalDocs({remote: 'LCDB6'})
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
@@ -99,7 +99,7 @@ test('getLocalChanges(string)', function (t) {
   db1.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.getLocalChanges('test2')
+    return api.unsyncedLocalDocs('test2')
   })
 
   .then(function (changedDocs) {
@@ -107,10 +107,10 @@ test('getLocalChanges(string)', function (t) {
   })
 })
 
-test('getLocalChanges(obj)', function (t) {
+test('api.unsyncedLocalDocs(obj)', function (t) {
   t.plan(1)
   var db1 = dbFactory('LCDB7')
-  var api = db1.hoodieLocalChanges({remote: 'LCDB8'})
+  var api = db1.unsyncedLocalDocs({remote: 'LCDB8'})
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
@@ -119,7 +119,7 @@ test('getLocalChanges(obj)', function (t) {
   db1.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.getLocalChanges(localObj1)
+    return api.unsyncedLocalDocs(localObj1)
   })
 
   .then(function (changedDocs) {
@@ -127,10 +127,10 @@ test('getLocalChanges(obj)', function (t) {
   })
 })
 
-test('getLocalChanges([obj1, id2])', function (t) {
+test('api.unsyncedLocalDocs([obj1, id2])', function (t) {
   t.plan(1)
   var db1 = dbFactory('LCDB9')
-  var api = db1.hoodieLocalChanges({remote: 'LCDB10'})
+  var api = db1.unsyncedLocalDocs({remote: 'LCDB10'})
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
@@ -139,7 +139,7 @@ test('getLocalChanges([obj1, id2])', function (t) {
   db1.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.getLocalChanges([localObj3, 'test2'])
+    return api.unsyncedLocalDocs([localObj3, 'test2'])
   })
 
   .then(function (changedDocs) {
@@ -147,10 +147,10 @@ test('getLocalChanges([obj1, id2])', function (t) {
   })
 })
 
-test('getLocalChanges([obj1, undefined]), ', function (t) {
+test('api.unsyncedLocalDocs([obj1, undefined]), ', function (t) {
   t.plan(1)
   var db1 = dbFactory('LCDB9')
-  var api = db1.hoodieLocalChanges({remote: 'LCDB10'})
+  var api = db1.unsyncedLocalDocs({remote: 'LCDB10'})
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
@@ -159,10 +159,10 @@ test('getLocalChanges([obj1, undefined]), ', function (t) {
   db1.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.getLocalChanges([localObj3, undefined])
+    return api.unsyncedLocalDocs([localObj3, undefined])
   })
 
   .catch(function () {
-    t.pass('jau')
+    t.pass('object is undefined and get fails')
   })
 })
