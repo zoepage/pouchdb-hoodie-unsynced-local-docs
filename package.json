@@ -1,9 +1,9 @@
 {
-  "name": "pouchdb-hoodie-local-changes",
-  "description": "Hoodie-like sync API for PouchDB",
-  "version": "0.0.0-semantically-released",
+  "name": "pouchdb-hoodie-unsynced-local-docs",
+  "description": "Hoodie-like check for locally changed docs API for PouchDB",
+  "version": "1.0.0-semantically-released",
   "bugs": {
-    "url": "https://github.com/zoepage/pouchdb-hoodie-local-changes/issues"
+    "url": "https://github.com/hoodiehq/pouchdb-hoodie-unsynced-local-docs/issues"
   },
   "dependencies": {
     "pouchdb-extend": "^0.1.2"
@@ -25,7 +25,7 @@
     "staticpath": "docs/build",
     "noprompt": true
   },
-  "homepage": "https://github.com/zoepage/pouchdb-hoodie-local-changes",
+  "homepage": "https://github.com/hoodiehq/pouchdb-hoodie-unsynced-local-docs",
   "keywords": [
     "data",
     "first",
@@ -38,7 +38,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zoepage/pouchdb-hoodie-local-changes.git"
+    "url": "https://github.com/hoodiehq/pouchdb-hoodie-unsynced-local-docs.git"
   },
   "scripts": {
     "deploydocs": "gh-pages-deploy",
