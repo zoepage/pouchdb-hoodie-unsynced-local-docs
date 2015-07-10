@@ -16,26 +16,16 @@ check if local DB has unsynced changes.
 // Initialisation
 
 var db = new PouchDB('dbname')
-var api = db.unsyncedLocalDocs({remote: 'http://example.com/mydb'})
 
-api.unsyncedLocalDocs()
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: ''})
 .then(function(changes) {
-  // changes is array of docs?
+  // returns array of unsynced local docs
 })
 
-api.unsyncedLocalDocs('docid') // pass doc id
-api.unsyncedLocalDocs({_id: 'docid'}) // pass doc with _id property
-api.unsyncedLocalDocs(['docid', {_id: 'docid'}]) // array of IDs and objects
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: 'docid'}) // pass doc id
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: {_id: 'docid'}}) // pass doc with _id property
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: ['docid', {_id: 'docid'}]}) // array of IDs and objects
 ```
-
-## Approach
-1. we know localDb, but not the state of remoteDB when we are offline
-2. update_seq(for localDb/remoteDb) + get `_local/` ids for both, 1-time replication & continuous replication*
-3. localDb/_changes?since=<seq>
-4. if it returns anything: there are changes
-
-hint: 
-* `https://github.com/pouchdb/pouchdb/blob/master/lib/replicate/genReplicationId.js`
 
 ## Installation
 
