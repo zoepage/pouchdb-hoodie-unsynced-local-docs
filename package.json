@@ -1,9 +1,9 @@
 {
-  "name": "pouchdb-hoodie-local-changes",
-  "description": "Hoodie-like sync API for PouchDB",
+  "name": "pouchdb-hoodie-unsynced-local-docs",
+  "description": "Hoodie-like check for locally changed docs API for PouchDB",
   "version": "0.0.0-semantically-released",
   "bugs": {
-    "url": "https://github.com/zoepage/pouchdb-hoodie-local-changes/issues"
+    "url": "https://github.com/hoodiehq/pouchdb-hoodie-unsynced-local-docs/issues"
   },
   "dependencies": {
     "pouchdb-extend": "^0.1.2"
@@ -16,7 +16,7 @@
     "istanbul-coveralls": "^1.0.3",
     "memdown": "^1.0.0",
     "pouchdb": "^3.6.0",
-    "semantic-release": "^3.4.0",
+    "semantic-release": "3.3.2",
     "standard": "^4.2.1",
     "tap-spec": "^4.0.0",
     "tape": "^4.0.0"
@@ -25,7 +25,7 @@
     "staticpath": "docs/build",
     "noprompt": true
   },
-  "homepage": "https://github.com/zoepage/pouchdb-hoodie-local-changes",
+  "homepage": "https://github.com/hoodiehq/pouchdb-hoodie-unsynced-local-docs",
   "keywords": [
     "data",
     "first",
@@ -38,14 +38,16 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zoepage/pouchdb-hoodie-local-changes.git"
+    "url": "https://github.com/hoodiehq/pouchdb-hoodie-unsynced-local-docs.git"
   },
   "scripts": {
     "deploydocs": "gh-pages-deploy",
     "docs": "doxx --source ./lib --target docs/build --template docs/template.jade --ignore coverage,dist,helpers,node_modules,tests,utils,index.js",
     "test": "standard && npm run -s test:node | tap-spec",
     "test:coverage": "istanbul cover tests && istanbul-coveralls",
-    "test:node": "node tests"
+    "test:node": "node tests",
+    "prepublish": "semantic-release pre",
+    "postpublish": "semantic-release post"
   },
   "standard": {
     "ignore": [

@@ -1,5 +1,11 @@
-# pouchdb-hoodie-local-changes
+# pouchdb-hoodie-unsynced-local-docs
 
+[![Build Status](https://travis-ci.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs.svg?branch=master)](https://travis-ci.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs)
+[![Coverage Status](https://coveralls.io/repos/hoodiehq/pouchdb-hoodie-unsynced-local-docs/badge.svg?branch=master&service=github)](https://coveralls.io/github/hoodiehq/pouchdb-hoodie-unsynced-local-docs?branch=master)
+[![Dependency Status](https://david-dm.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs.svg)](https://david-dm.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs)
+[![devDependency Status](https://david-dm.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs/dev-status.svg)](https://david-dm.org/hoodiehq/pouchdb-hoodie-unsynced-local-docs#info=devDependencies)
+
+[![NPM](https://nodei.co/npm/pouchdb-hoodie-unsynced-local-docs.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/pouchdb-hoodie-unsynced-local-docs/)
 
 This [PouchDB](http://pouchdb.com/) plugin provides simple methods to
 check if local DB has unsynced changes.
@@ -10,26 +16,16 @@ check if local DB has unsynced changes.
 // Initialisation
 
 var db = new PouchDB('dbname')
-var api = db.hoodieLocalChanges({remote: 'http://example.com/mydb'})
 
-api.getLocalChanges()
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: ''})
 .then(function(changes) {
-  // changes is array of docs?
+  // returns array of unsynced local docs
 })
 
-api.getLocalChanges('docid') // pass doc id
-api.getLocalChanges({_id: 'docid'}) // pass doc with _id property
-api.getLocalChanges(['docid', {_id: 'docid'}]) // array of IDs and objects
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: 'docid'}) // pass doc id
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: {_id: 'docid'}}) // pass doc with _id property
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: ['docid', {_id: 'docid'}]}) // array of IDs and objects
 ```
-
-## Approach
-1. we know localDb, but not the state of remoteDB when we are offline
-2. update_seq(for localDb/remoteDb) + get `_local/` ids for both, 1-time replication & continuous replication*
-3. localDb/_changes?since=<seq>
-4. if it returns anything: there are changes
-
-hint: 
-* `https://github.com/pouchdb/pouchdb/blob/master/lib/replicate/genReplicationId.js`
 
 ## Installation
 
@@ -38,14 +34,14 @@ hint:
 Attach this plugin to the PouchDB object: 
 ````
 npm install --save pouchdb
-npm install --save pouchdb-hoodie-local-changes
+npm install --save pouchdb-hoodie-unsynced-local-docs
 ````
 
 #### Install via npm
 
 ````
 var PouchDB = require('pouchdb')
-PouchDB.plugin(require('pouchdb-hoodie-local-changes'))
+PouchDB.plugin(require('pouchdb-hoodie-unsynced-local-docs'))
 ````
 
 <!--

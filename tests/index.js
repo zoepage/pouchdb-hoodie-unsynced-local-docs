@@ -1,3 +1,3 @@
 'use strict'
 
-require('./specs/get-local-changes')
+require('./specs/unsynced-local-docs')

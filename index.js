@@ -1,17 +1,7 @@
 'use strict'
 
-var exports = module.exports = { hoodieLocalChanges: hoodieLocalChanges }
-var EventEmitter = require('events').EventEmitter
-
-function hoodieLocalChanges (options) {
-  var state = {
-    emitter: new EventEmitter()
-  }
-
-  return {
-    db: this,
-    getLocalChanges: require('./lib/get-local-changes').bind(this, state, options)
-  }
+var exports = module.exports = {
+  unsyncedLocalDocs: require('./lib/unsynced-local-docs')
 }
 
 /* istanbul ignore next */
