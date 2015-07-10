@@ -5,13 +5,10 @@ var EventEmitter = require('events').EventEmitter
 
 function unsyncedLocalDocs (options) {
   var state = {
-    emitter: new EventEmitter()
+    emitter: options && options.emitter || new EventEmitter()
   }
 
-  return {
-    db: this,
-    unsyncedLocalDocs: require('./lib/unsynced-local-docs').bind(this, state, options)
-  }
+  return require('./lib/unsynced-local-docs').call(this, state, options)
 }
 
 /* istanbul ignore next */

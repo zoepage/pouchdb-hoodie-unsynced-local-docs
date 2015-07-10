@@ -5,7 +5,7 @@ var PouchDB = require('pouchdb').defaults({
 })
 var uuid = PouchDB.utils.uuid
 
-if (!PouchDB.prototype.hoodieSync) PouchDB.plugin(require('../../'))
+if (!PouchDB.prototype.unsyncedLocalDocs) PouchDB.plugin(require('../../'))
 
 module.exports = function (name) {
   name = name || uuid(10)

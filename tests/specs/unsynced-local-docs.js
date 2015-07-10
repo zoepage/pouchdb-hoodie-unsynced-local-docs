@@ -2,42 +2,33 @@ var test = require('tape')
 var dbFactory = require('../utils/db')
 
 /* create if db does not exist, ping if exists or created */
-test('api.unsyncedLocalDocs() creates new db', function (t) {
-  t.plan(2)
+test('db.unsyncedLocalDocs() resolves with array', function (t) {
+  t.plan(1)
   var db = dbFactory()
-  var PouchDB = db.constructor
-  var remoteName = PouchDB.utils.uuid(10)
-  var api = db.unsyncedLocalDocs({remote: 'LCDB2'})
 
   db.put({_id: 'test'})
 
   .then(function () {
-    return api.unsyncedLocalDocs()
+    return db.unsyncedLocalDocs({remote: 'LCDB2', keys: ''})
   })
 
-  .then(function () {
-    return dbFactory(remoteName).info()
-  })
-
-  .then(function (info) {
-    t.equal(info.db_name, remoteName, 'remote db exists')
-    t.is(typeof api.unsyncedLocalDocs, 'function', 'has method')
+  .then(function (docs) {
+    t.ok(Array.isArray(docs), 'resolves array')
   })
 })
 
-test('api.unsyncedLocalDocs()', function (t) {
+test('db.unsyncedLocalDocs()', function (t) {
   t.plan(4)
-  var db1 = dbFactory('LCDB1')
-  var api = db1.unsyncedLocalDocs({remote: 'LCDB2'})
+  var db = dbFactory('LCDB1')
 
   var localObj1 = {_id: 'test1', foo: 'bar1'}
   var localObj2 = {_id: 'test2', foo: 'bar2'}
   var localObj3 = {_id: 'test3', foo: 'bar3'}
 
-  db1.bulkDocs([localObj1, localObj2, localObj3])
+  db.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.unsyncedLocalDocs()
+    return db.unsyncedLocalDocs({remote: 'LCDB2', keys: ''})
   })
 
   .then(function (changedDocs) {
@@ -54,20 +45,19 @@ test('api.unsyncedLocalDocs()', function (t) {
   })
 })
 
-test('api.unsyncedLocalDocs(), sync before check', function (t) {
+test('db.unsyncedLocalDocs(), sync before check', function (t) {
   t.plan(2)
-  var db1 = dbFactory('LCDB3')
+  var db = dbFactory('LCDB3')
   var db2 = dbFactory('LCDB4')
-  var api = db1.unsyncedLocalDocs({remote: 'LCDB4'})
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
   var localObj3 = {_id: 'test3'}
 
-  db1.bulkDocs([localObj1, localObj2, localObj3])
+  db.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.unsyncedLocalDocs()
+    return db.unsyncedLocalDocs({remote: 'LCDB4', keys: ''})
   })
 
   .then(function (changedDocs) {
@@ -75,11 +65,11 @@ test('api.unsyncedLocalDocs(), sync before check', function (t) {
   })
 
   .then(function () {
-    return db1.sync(db2)
+    return db.sync(db2)
   })
 
   .then(function () {
-    return api.unsyncedLocalDocs()
+    return db.unsyncedLocalDocs({remote: 'LCDB4', keys: ''})
   })
 
   .then(function (changedDocs) {
@@ -87,19 +77,18 @@ test('api.unsyncedLocalDocs(), sync before check', function (t) {
   })
 })
 
-test('api.unsyncedLocalDocs(string)', function (t) {
+test('db.unsyncedLocalDocs(string)', function (t) {
   t.plan(1)
-  var db1 = dbFactory('LCDB5')
-  var api = db1.unsyncedLocalDocs({remote: 'LCDB6'})
+  var db = dbFactory('LCDB5')
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
   var localObj3 = {_id: 'test3'}
 
-  db1.bulkDocs([localObj1, localObj2, localObj3])
+  db.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.unsyncedLocalDocs('test2')
+    return db.unsyncedLocalDocs({remote: 'LCDB6', keys: 'test2'})
   })
 
   .then(function (changedDocs) {
@@ -107,19 +96,18 @@ test('api.unsyncedLocalDocs(string)', function (t) {
   })
 })
 
-test('api.unsyncedLocalDocs(obj)', function (t) {
+test('db.unsyncedLocalDocs(obj)', function (t) {
   t.plan(1)
-  var db1 = dbFactory('LCDB7')
-  var api = db1.unsyncedLocalDocs({remote: 'LCDB8'})
+  var db = dbFactory('LCDB7')
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
   var localObj3 = {_id: 'test3'}
 
-  db1.bulkDocs([localObj1, localObj2, localObj3])
+  db.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.unsyncedLocalDocs(localObj1)
+    return db.unsyncedLocalDocs({remote: 'LCDB8', keys: localObj1})
   })
 
   .then(function (changedDocs) {
@@ -129,17 +117,16 @@ test('api.unsyncedLocalDocs(obj)', function (t) {
 
 test('api.unsyncedLocalDocs([obj1, id2])', function (t) {
   t.plan(1)
-  var db1 = dbFactory('LCDB9')
-  var api = db1.unsyncedLocalDocs({remote: 'LCDB10'})
+  var db = dbFactory('LCDB9')
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
   var localObj3 = {_id: 'test3'}
 
-  db1.bulkDocs([localObj1, localObj2, localObj3])
+  db.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.unsyncedLocalDocs([localObj3, 'test2'])
+    return db.unsyncedLocalDocs({remote: 'LCDB10', keys: [localObj3, 'test2']})
   })
 
   .then(function (changedDocs) {
@@ -149,17 +136,16 @@ test('api.unsyncedLocalDocs([obj1, id2])', function (t) {
 
 test('api.unsyncedLocalDocs([obj1, undefined]), ', function (t) {
   t.plan(1)
-  var db1 = dbFactory('LCDB9')
-  var api = db1.unsyncedLocalDocs({remote: 'LCDB10'})
+  var db = dbFactory('LCDB9')
 
   var localObj1 = {_id: 'test1'}
   var localObj2 = {_id: 'test2'}
   var localObj3 = {_id: 'test3'}
 
-  db1.bulkDocs([localObj1, localObj2, localObj3])
+  db.bulkDocs([localObj1, localObj2, localObj3])
 
   .then(function () {
-    return api.unsyncedLocalDocs([localObj3, undefined])
+    return db.unsyncedLocalDocs({remote: 'LCDB10', keys: [localObj3, undefined]})
   })
 
   .catch(function () {
