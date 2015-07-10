@@ -16,16 +16,15 @@ check if local DB has unsynced changes.
 // Initialisation
 
 var db = new PouchDB('dbname')
-var api = db.unsyncedLocalDocs({remote: 'http://example.com/mydb'})
 
-api.unsyncedLocalDocs()
-.then(function(changes) {
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb'})
+.then(function(docs) {
   // changes is array of docs?
 })
 
-api.unsyncedLocalDocs('docid') // pass doc id
-api.unsyncedLocalDocs({_id: 'docid'}) // pass doc with _id property
-api.unsyncedLocalDocs(['docid', {_id: 'docid'}]) // array of IDs and objects
+db.unsyncedLocalDocs('docid') // pass doc id
+db.unsyncedLocalDocs({_id: 'docid'}) // pass doc with _id property
+db.unsyncedLocalDocs(['docid', {_id: 'docid'}]) // array of IDs and objects
 ```
 
 ## Approach
@@ -34,14 +33,14 @@ api.unsyncedLocalDocs(['docid', {_id: 'docid'}]) // array of IDs and objects
 3. localDb/_changes?since=<seq>
 4. if it returns anything: there are changes
 
-hint: 
+hint:
 * `https://github.com/pouchdb/pouchdb/blob/master/lib/replicate/genReplicationId.js`
 
 ## Installation
 
 #### With browserify or on node.js/io.js
 
-Attach this plugin to the PouchDB object: 
+Attach this plugin to the PouchDB object:
 ````
 npm install --save pouchdb
 npm install --save pouchdb-hoodie-unsynced-local-docs
