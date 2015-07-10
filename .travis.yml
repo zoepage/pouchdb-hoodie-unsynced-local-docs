@@ -38,7 +38,7 @@ env:
   - NODE=0.10 COMMAND=test
   - NODE=0.12 COMMAND=test
   - NODE=iojs-v1 COMMAND=test
-  deploy:
+deploy:
   provider: npm
   email: o.gasidlo@gmail.com
   # Very important. Don't forget this one.
