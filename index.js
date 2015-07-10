@@ -1,17 +1,7 @@
 'use strict'
 
-var exports = module.exports = { unsyncedLocalDocs: unsyncedLocalDocs }
-var EventEmitter = require('events').EventEmitter
-
-function unsyncedLocalDocs (options) {
-  var state = {
-    emitter: new EventEmitter()
-  }
-
-  return {
-    db: this,
-    unsyncedLocalDocs: require('./lib/unsynced-local-docs').bind(this, state, options)
-  }
+var exports = module.exports = {
+  unsyncedLocalDocs: require('./lib/unsynced-local-docs')
 }
 
 /* istanbul ignore next */
