@@ -17,30 +17,21 @@ check if local DB has unsynced changes.
 
 var db = new PouchDB('dbname')
 
-db.unsyncedLocalDocs({remote: 'http://example.com/mydb'})
-.then(function(docs) {
-  // changes is array of docs?
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: ''})
+.then(function(changes) {
+  // returns array of unsynced local docs
 })
 
-db.unsyncedLocalDocs('docid') // pass doc id
-db.unsyncedLocalDocs({_id: 'docid'}) // pass doc with _id property
-db.unsyncedLocalDocs(['docid', {_id: 'docid'}]) // array of IDs and objects
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: 'docid'}) // pass doc id
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: {_id: 'docid'}}) // pass doc with _id property
+db.unsyncedLocalDocs({remote: 'http://example.com/mydb', keys: ['docid', {_id: 'docid'}]}) // array of IDs and objects
 ```
-
-## Approach
-1. we know localDb, but not the state of remoteDB when we are offline
-2. update_seq(for localDb/remoteDb) + get `_local/` ids for both, 1-time replication & continuous replication*
-3. localDb/_changes?since=<seq>
-4. if it returns anything: there are changes
-
-hint:
-* `https://github.com/pouchdb/pouchdb/blob/master/lib/replicate/genReplicationId.js`
 
 ## Installation
 
 #### With browserify or on node.js/io.js
 
-Attach this plugin to the PouchDB object:
+Attach this plugin to the PouchDB object: 
 ````
 npm install --save pouchdb
 npm install --save pouchdb-hoodie-unsynced-local-docs
@@ -53,19 +44,19 @@ var PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-hoodie-unsynced-local-docs'))
 ````
 
-<!--
+
 ### In the browser
 
 ```html
 <script src="pouchdb.js"></script>
-<script src="pouchdb-hoodie-local-changes.js"></script>
+<script src="pouchdb-hoodie-unsynced-local-docs.js"></script>
 ```
 
 ### In node.js
 
 ```js
 var PouchDB = require('pouchdb')
-PouchDB.plugin( require('pouchdb-hoodie-local-changes') )
+PouchDB.plugin( require('pouchdb-hoodie-unsynced-local-docs') )
 ```
 
 ## Testing
@@ -83,7 +74,7 @@ To run only the tests
 ```
 npm run test:node
 ```
--->
+
 ## Contributing
 
 Have a look at the Hoodie project's [contribution guidelines](https://github.com/hoodiehq/hoodie-dotfiles/blob/master/static/CONTRIBUTING.md).
